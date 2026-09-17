@@ -12,8 +12,8 @@ export interface InvokeOptions extends RequestOptions {
    * stored upstream credential instead of the project's.
    *
    * This is the point of Frege: one agent, one project key, acting as any
-   * customer, with both parties on the audit record. On a self-serve project —
-   * where there is no project-level credential at all — it is required.
+   * customer, with both parties on the audit record. Where the project has no
+   * shared credential of its own, it is required.
    *
    * The id comes from the project's client list in the dashboard.
    */

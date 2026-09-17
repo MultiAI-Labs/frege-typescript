@@ -76,7 +76,29 @@ export interface FregeOptions {
 
   /** Extra headers on every request. `Authorization` cannot be overridden. */
   headers?: Record<string, string>;
+
+  /**
+   * Which environment answers every project-scoped call: `'staging'` or
+   * `'live'`.
+   *
+   * OMITTING THIS MEANS LIVE. That is the server's default, not this SDK's
+   * choice, and it is worth knowing before pointing a test at a real
+   * deployment: a run that means to exercise staging and never sets a stage
+   * reads production's spec and spends production's credential, and every
+   * response looks perfectly normal.
+   *
+   * An API key is bound to ONE environment when it is issued, so a key and a
+   * stage that disagree fail rather than crossing over. That is the server
+   * protecting you, not this option.
+   */
+  stage?: Stage;
 }
+
+/** The two environments every project has. */
+export type Stage = 'staging' | 'live';
+
+/** Carries the environment on every project-scoped request. */
+export const STAGE_HEADER = 'X-Frege-Stage';
 
 export interface ResolvedConfig {
   baseUrl: string;
@@ -117,6 +139,10 @@ export function resolveConfig(options: FregeOptions): ResolvedConfig {
       // it is how support pins a call down to a build.
       'User-Agent': `frege-typescript/${VERSION}`,
       ...options.headers,
+      // After the caller's headers, so `stage` is the one authority for the
+      // environment. Sent only when chosen: an empty header is not the same as
+      // no header, and the server reads absence as live.
+      ...(options.stage === undefined ? {} : { [STAGE_HEADER]: options.stage }),
     },
     retry: {
       // Nothing here may be NaN or negative. `maxRetries: NaN` used to make

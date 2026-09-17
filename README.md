@@ -14,6 +14,24 @@ runs that project's tools for whoever holds it, and anything in a browser bundle
 is public. Call Frege from your own server, or from an edge function that keeps
 the key server-side.
 
+
+## Environments
+
+Every project has two environments, `staging` and `live`. A project-scoped call
+is answered by one of them.
+
+```ts
+const frege = new Frege({ projectId: 53, token: process.env.FREGE_KEY!, stage: 'staging' });
+```
+
+**Omitting this means live.** That is the server's default, not this SDK's
+choice. A test that means to exercise staging and never sets a stage reads
+production's spec and spends production's credential, and every response looks
+perfectly normal.
+
+An API key is bound to one environment when it is issued, so a key and a stage
+that disagree fail rather than crossing over.
+
 ## Install
 
 ```bash
@@ -73,10 +91,10 @@ account was reached.
 const orders = await frege.invoke('list_orders', { status: 'open' }, { asClient: 4021 });
 ```
 
-The id comes from the project's client list in the dashboard. On a **self-serve**
-project — where every credential belongs to an individual end customer and there
-is no project-level one at all — `asClient` is required, and omitting it returns
-a validation error saying so.
+The id comes from the project's client list in the dashboard. Where every
+credential belongs to an individual end customer and the project has no shared
+one of its own, `asClient` is required, and omitting it returns a validation
+error saying so.
 
 ## Two different statuses
 
