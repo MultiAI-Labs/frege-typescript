@@ -91,10 +91,10 @@ account was reached.
 const orders = await frege.invoke('list_orders', { status: 'open' }, { asClient: 4021 });
 ```
 
-The id comes from the project's client list in the dashboard. On a **self-serve**
-project — where every credential belongs to an individual end customer and there
-is no project-level one at all — `asClient` is required, and omitting it returns
-a validation error saying so.
+The id comes from the project's client list in the dashboard. Where every
+credential belongs to an individual end customer and the project has no shared
+one of its own, `asClient` is required, and omitting it returns a validation
+error saying so.
 
 ## Two different statuses
 
