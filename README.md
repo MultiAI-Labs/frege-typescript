@@ -14,7 +14,6 @@ runs that project's tools for whoever holds it, and anything in a browser bundle
 is public. Call Frege from your own server, or from an edge function that keeps
 the key server-side.
 
-
 ## Environments
 
 Every project has two environments, `staging` and `live`. A project-scoped call

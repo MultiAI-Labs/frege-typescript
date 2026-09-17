@@ -12,7 +12,7 @@ export type {
   WaitOptions,
 } from './client.js';
 
-export { DEFAULT_BASE_URL, DEV_BASE_URL , STAGE_HEADER } from './config.js';
+export { DEFAULT_BASE_URL, DEV_BASE_URL, STAGE_HEADER } from './config.js';
 export type { FetchLike, FregeOptions, RetryOptions, TokenProvider } from './config.js';
 
 export type { RequestOptions } from './http.js';
